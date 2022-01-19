@@ -1,0 +1,17 @@
+body{
+	text-align: center;
+	margin-top: 100px;
+	background-image: url("isaac.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: rgba(52, 29, 20, 0.527);
+}
+#desc{
+	font-size: +20;
+}
+h1{
+	color: blue;
+}
+p{
+	color: white;
+}
