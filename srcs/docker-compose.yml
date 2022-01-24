@@ -1,6 +1,13 @@
-version: '3.7'
-
+version: '3'
 services:
   nginx:
     build:
-      dockerfile: ./nginx/Dockerfile
+        context: .
+        dockerfile: ./requirements/nginx/Dockerfile
+          #volumes:
+          #- nginx:/etc/nginx/conf.d
+          #- /data/html:/var/www/html
+    ports:
+      - 80:80
+        #links:
+        #- wordpress
