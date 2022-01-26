@@ -7,7 +7,6 @@ services:
           #volumes:
           #- nginx:/etc/nginx/conf.d
           #- /data/html:/var/www/html
+    restart: always
     ports:
-      - 80:80
-        #links:
-        #- wordpress
+      - 443:443
