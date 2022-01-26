@@ -1,23 +1,21 @@
 # Se descarga la imagen de nginx:alpine
-From nginx:1.15.8-alpine
+From alpine:3.14
 
 # Se actualiza e instala todo lo necesario
-RUN apk update & apk add openssl
+RUN apk update && apk add nginx && apk add openssl
 
-# Se copia y borra todo lo requerido para la configuración de nginx
+# Se copia lo requerido para la configuración de nginx
 COPY requirements/nginx/conf/nginx.conf /etc/nginx/nginx.conf
-COPY requirements/nginx/tools/index.html /usr/share/nginx/html/
-COPY requirements/nginx/tools/style.css /usr/share/nginx/html/
-COPY requirements/nginx/tools/isaac.jpg /usr/share/nginx/html/
-#COPY ./conf/default.conf /etc/nginx/conf.d casi casi esta ssl configurado
-
+COPY requirements/nginx/tools/index.html /var/www/html/
+COPY requirements/nginx/tools/style.css /var/www/html/
+COPY requirements/nginx/tools/isaac.jpg /var/www/html/
 
 # Se genera el certificado ssl y se dan todos los permisos
-RUN openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout /etc/ssl/nginx-selfsigned.key -out /etc/ssl/nginx-selfsigned.crt -days 365 -subj "/C=ES/ST=Madrid/L=Madrid/O=42/OU=Learner/CN=10.13.200.62"
-#RUN chown -R www-data:www-data *
-#RUN chmod -R 755 /var/www/*
+RUN mkdir -p /etc/nginx/private
+RUN chmod 700 /etc/nginx/private
+RUN openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout /etc/ssl/nginx-selfsigned.key -out /etc/ssl/nginx-selfsigned.crt -days 365 -subj "/C=ES/ST=Madrid/L=Madrid/O=42/OU=Learner/CN=127.0.0.1"
 
-EXPOSE 80
+EXPOSE 443 80
 
 # Se ejecuta el script de init.sh
 CMD ["nginx", "-g", "daemon off;"]
