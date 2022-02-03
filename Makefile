@@ -7,3 +7,6 @@ run:
 
 clean:
 	docker system prune -a
+
+kill:
+	./kill.sh

@@ -9,4 +9,4 @@ RUN wget https://wordpress.org/latest.tar.gz && \
 	tar -xvzf latest.tar.gz && \
 	rm -rf latest.tar.gz
 
-COPY config/wp-config.php /var/www/html/
+COPY ./requirements/wordpress/config/wp-config.php /var/www/html/
