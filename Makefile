@@ -9,4 +9,4 @@ clean:
 	docker system prune -a
 
 kill:
-	./kill.sh
+	./srcs/scripts/kill.sh
