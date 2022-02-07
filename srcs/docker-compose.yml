@@ -2,8 +2,7 @@ version: '3'
 services:
   nginx:
     build:
-        context: .
-        dockerfile: ./requirements/nginx/Dockerfile
+        context: ./requirements/nginx/
           #volumes:
           #- nginx:/etc/nginx/conf.d
           #- /data/html:/var/www/html
@@ -12,8 +11,15 @@ services:
       - 443:443
   wordpress:
     build:
-        context: .
-        dockerfile: ./requirements/wordpress/Dockerfile
+        context: ./requirements/wordpress/
+        args:
+            - DB_NAME=${DB_NAME}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
     restart: unless-stopped
     ports:
       - 9000:9000
+    environment:
+      WORDPRESS_DB_NAME: $DB_NAME
+      WORDPRESS_DB_USER: $DB_USER
+      WORDPRESS_DB_PASSWORD: $DB_PASSWORD
