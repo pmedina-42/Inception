@@ -1,5 +1,5 @@
 # Se descarga la imagen
-From alpine:3.15
+From alpine:3.14
 
 ARG DB_NAME
 ARG DB_USER
@@ -11,7 +11,7 @@ RUN apk update && apk upgrade && apk add php-fpm wget php-gd php-cli php-mbstrin
 # El .tar de Wordpress se descarga, descomprime, y se borra
 RUN wget https://wordpress.org/latest.tar.gz && \
 	tar -xvzf latest.tar.gz && \
-	mv wordpress/* /var/www/html/wordpress && \
+	#mv wordpress/* /var/www/html/wordpress && \
 	rm -rf latest.tar.gz wordpress
 
 COPY ./config/initwp.sh /var/www/html/wordpress/
