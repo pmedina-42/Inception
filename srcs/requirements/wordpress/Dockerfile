@@ -12,19 +12,27 @@ RUN apk update && apk upgrade && apk add php7 php7-fpm php7-mbstring
 RUN	wget https://wordpress.org/latest.tar.gz && \
 	tar -xvzf latest.tar.gz && \
  	chmod 777 wordpress && \
-	rm -rf latest.tar.gz 
+	rm -rf latest.tar.gz && \
+	mkdir var/www && \
+	mkdir var/www/html && \
+	chmod 777 var && \
+	chmod 777 var/www && \
+	chmod 777 var/www/html
 
+COPY ./config/initwp.sh /var/www/html/
 COPY ./config/initwp.sh /var/www/html/wordpress/
-COPY ./config/wp-config.php /var/www/html/wordpress/
-RUN chmod 777 /var/www/html/*
-#RUN	cp -rf wordpress /var/www/html/wordpress/
-RUN 	ls /var/www/html/wordpress
-RUN chmod 777 /var/www/html/wordpress/*
-#RUN	rm -rf wordpress
-RUN ./var/www/html/wordpress/initwp.sh
+COPY ./config/wp-config.php /var/www/html/
+RUN	chmod 777 /var/www/html/wordpress && \
+	mv wordpress/* /var/www/html/wordpress && \
+	rm -rf wordpress && \
+	mv /var/www/html/wp-config.php /var/www/html/wordpress/
+
+RUN chmod 777 /var/www/html/* && \
+	./var/www/html/initwp.sh
+	
 
 EXPOSE 9000
 
-#RUN echo "listen 9000" >> /etc/php7/php-fpm.d/www.conf
+###RUN echo "listen 9000" >> /etc/php7/php-fpm.d/www.conf
 
 CMD ["php-fpm7", "--nodaemonize"]

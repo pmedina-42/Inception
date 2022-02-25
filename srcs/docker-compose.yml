@@ -38,8 +38,8 @@ services:
           #- /data/html:/var/www/html
     depends_on:
       - wordpress
-    volumes:
-      - wpvol:/var/www/html/wordpress
+        #volumes:
+        #  - wpvol:/var/www/html/wordpress
     restart: always
     ports:
       - 443:443

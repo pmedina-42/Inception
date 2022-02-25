@@ -6,10 +6,6 @@ RUN apk update && apk add nginx && apk add openssl
 
 # Se copia lo requerido para la configuración de nginx
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./tools/index.html /var/www/html/
-COPY ./tools/style.css /var/www/html/
-COPY ./tools/isaac.jpg /var/www/html/
-RUN chmod 777 /var/www/html/
 
 # Se genera el certificado ssl y se dan todos los permisos
 RUN mkdir -p /etc/ssl/private && \
