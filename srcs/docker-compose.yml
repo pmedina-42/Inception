@@ -10,8 +10,6 @@ services:
     restart: unless-stopped
     volumes:
       - mdbvol:/var/lib/mysql
-    ports: 
-      - 3306:3306
   wordpress:
     build:
         context: ./requirements/wordpress/

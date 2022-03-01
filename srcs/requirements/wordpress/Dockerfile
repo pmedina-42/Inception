@@ -17,7 +17,7 @@ RUN	mkdir var/www && \
 COPY ./config/initwp.sh /var/www/html/wordpress
 COPY ./config/wp-config.php /var/www/html/wordpress
 
-RUN chmod 777 /var/www/html/wordpress/initwp.sh && \
+RUN chmod 755 /var/www/html/wordpress/initwp.sh && \
 	./var/www/html/wordpress/initwp.sh
 
 # El .tar de Wordpress se descarga, descomprime, y se borra
