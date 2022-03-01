@@ -5,11 +5,7 @@ From alpine:3.14
 RUN apk update && apk add nginx && apk add openssl
 
 # Se copia lo requerido para la configuración de nginx
-COPY requirements/nginx/conf/nginx.conf /etc/nginx/nginx.conf
-COPY requirements/nginx/tools/index.html /var/www/html/
-COPY requirements/nginx/tools/style.css /var/www/html/
-COPY requirements/nginx/tools/isaac.jpg /var/www/html/
-RUN chmod 777 /var/www/html/
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 # Se genera el certificado ssl y se dan todos los permisos
 RUN mkdir -p /etc/ssl/private && \

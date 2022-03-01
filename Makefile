@@ -10,3 +10,5 @@ clean:
 
 kill:
 	./srcs/scripts/kill.sh
+
+massacre: kill clean

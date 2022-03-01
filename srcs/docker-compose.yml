@@ -1,19 +1,48 @@
 version: '3'
 services:
-  nginx:
+  mariadb:
     build:
-        context: .
-        dockerfile: ./requirements/nginx/Dockerfile
-          #volumes:
-          #- nginx:/etc/nginx/conf.d
-          #- /data/html:/var/www/html
-    restart: always
-    ports:
-      - 443:443
+        context: ./requirements/mariadb/
+        args:
+          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+          - MYSQL_USER=${MYSQL_USER}
+          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - mdbvol:/var/lib/mysql
+    ports: 
+      - 3306:3306
   wordpress:
     build:
-        context: .
-        dockerfile: ./requirements/wordpress/Dockerfile
+        context: ./requirements/wordpress/
+        args:
+            - DB_NAME=${DB_NAME}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - mariadb
+    volumes:
+      - wpvol:/var/www/html/wordpress
     restart: unless-stopped
     ports:
       - 9000:9000
+    environment:
+      WORDPRESS_DB_NAME: $DB_NAME
+      WORDPRESS_DB_USER: $DB_USER
+      WORDPRESS_DB_PASSWORD: $DB_PASSWORD
+  nginx:
+    build:
+        context: ./requirements/nginx/
+          #volumes:
+          #- nginx:/etc/nginx/conf.d
+          #- /data/html:/var/www/html
+    depends_on:
+      - wordpress
+        #volumes:
+        #  - wpvol:/var/www/html/wordpress
+    restart: always
+    ports:
+      - 443:443
+volumes:
+  wpvol:
+  mdbvol:
