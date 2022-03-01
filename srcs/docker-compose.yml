@@ -24,8 +24,6 @@ services:
     volumes:
       - wpvol:/var/www/html/wordpress
     restart: unless-stopped
-    ports:
-      - 9000:9000
     environment:
       WORDPRESS_DB_NAME: $DB_NAME
       WORDPRESS_DB_USER: $DB_USER
@@ -33,13 +31,13 @@ services:
   nginx:
     build:
         context: ./requirements/nginx/
+    volumes:
+        - wpvol:/var/www/html/wordpress
           #volumes:
           #- nginx:/etc/nginx/conf.d
           #- /data/html:/var/www/html
     depends_on:
       - wordpress
-        #volumes:
-        #  - wpvol:/var/www/html/wordpress
     restart: always
     ports:
       - 443:443
