@@ -7,6 +7,7 @@ services:
           - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
           - MYSQL_USER=${MYSQL_USER}
           - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+          - MYSQL_DB=${MYSQL_DB}
     restart: unless-stopped
     volumes:
       - mdbvol:/var/lib/mysql
@@ -31,9 +32,6 @@ services:
         context: ./requirements/nginx/
     volumes:
         - wpvol:/var/www/html/wordpress
-          #volumes:
-          #- nginx:/etc/nginx/conf.d
-          #- /data/html:/var/www/html
     depends_on:
       - wordpress
     restart: always

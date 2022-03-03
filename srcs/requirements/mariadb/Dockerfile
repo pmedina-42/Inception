@@ -15,8 +15,6 @@ RUN chmod 755 config/* && \
 	./config/init_mdb_env.sh && \
 	./config/start.sh
 
-#RUN echo $MYSQL_DB
-
 EXPOSE 3306
 
 CMD ["./config/run.sh"]
