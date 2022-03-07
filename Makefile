@@ -2,9 +2,10 @@ run:
 	@cd ./srcs ; docker-compose up -d
 
 build:
-	@cd .. ; mkdir data ; cd data ; mkdir db_vol wp_vol
-	@cd ../data ; chmod 777 db_vol wp_vol
-	@cd /root/Documents/Inception/srcs ; docker-compose up -d
+	cd /root/ ; mkdir data ; chmod 777 data
+	cd /root/data ; mkdir wpvol mdbvol ; chmod 777 wpvol mdbvol
+	cd /root/Documents/Inception/srcs ; docker-compose up -d
+
 clean:
 	@./srcs/scripts/clean.sh
 
@@ -14,7 +15,9 @@ rmvols:
 kill:
 	@./srcs/scripts/kill.sh
 
-massacre:
+massacre: rmvols
 	@./srcs/scripts/massacre.sh
+	docker volume rm srcs_mdbvol
+	docker volume rm srcs_wpvol
 	@clear
 	@echo "Successfull massacre"

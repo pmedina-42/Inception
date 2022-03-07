@@ -39,4 +39,15 @@ services:
       - 443:443
 volumes:
   wpvol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /root/data/wpvol
+
   mdbvol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /root/data/mdbvol

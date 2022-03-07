@@ -5,15 +5,18 @@ ARG MYSQL_ROOT_PASSWORD
 ARG MYSQL_USER
 ARG MYSQL_PASSWORD
 
-RUN apk update & apk add mariadb \
+RUN apk update & apk upgrade & apk add mariadb \
 	mariadb-client \
 	 openrc # openrc no es un servicio sino una dependencia de algunas distribuciones de linux para iniciar servicios
 
 COPY ./config/* /config/
 
 RUN chmod 755 config/* && \
-	./config/init_mdb_env.sh && \
-	./config/start.sh
+	./config/init_mdb_env.sh
+
+RUN ./config/start.sh
+
+RUN echo "socket=/var/lib/mysql/mysql.sock" >> /etc/my.cnf
 
 EXPOSE 3306
 
