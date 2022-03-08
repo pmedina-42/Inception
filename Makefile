@@ -10,16 +10,15 @@ clean:
 	@./srcs/scripts/clean.sh
 
 rmvols:
-	@rm -rf data
+	docker volume rm srcs_mdbvol
+	docker volume rm srcs_wpvol
+	rm -rf /${USER}/data
 
 kill:
 	@./srcs/scripts/kill.sh
 
 massacre: rmvols
 	@./srcs/scripts/massacre.sh
-	docker volume rm srcs_mdbvol
-	docker volume rm srcs_wpvol
-	rm -rf /${USER}/data
 	@clear
 	@echo "Successfull massacre"
 
