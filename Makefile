@@ -9,17 +9,23 @@ build:
 clean:
 	@./srcs/scripts/clean.sh
 
-rmvols:
-	docker volume rm srcs_mdbvol
-	docker volume rm srcs_wpvol
-	rm -rf /${USER}/data
-
 kill:
 	@./srcs/scripts/kill.sh
 
-massacre: rmvols
+massacre:
 	@./srcs/scripts/massacre.sh
+	docker volume rm srcs_mdbvol
+	docker volume rm srcs_wpvol
+	rm -rf /${USER}/data
 	@clear
 	@echo "Successfull massacre"
 
 re: massacre build
+	
+show:
+	@echo "\n\tIMAGES CREATED"
+	@docker images
+	@echo "\n\tCONTAINERS RUNNING"
+	@docker ps
+	@echo "\n\tVOLUME LIST"
+	@docker volume ls
