@@ -1,14 +1,26 @@
-build:
-	cd ./srcs ; docker-compose up -d
-
 run:
-	mkdir volumes ; cd volumes ; mkdir wp_vol mbd_vol
-	cd srcs ; docker compose up 
+	@cd ./srcs ; docker-compose up -d
+
+build:
+	cd /${USER} ; mkdir data ; chmod 777 data
+	cd /${USER}/data ; mkdir wpvol mdbvol ; chmod 777 wpvol mdbvol
+	cd /${USER}/Documents/Inception/srcs ; docker-compose up -d
 
 clean:
-	docker system prune -a
+	@./srcs/scripts/clean.sh
+
+rmvols:
+	@rm -rf data
 
 kill:
-	./srcs/scripts/kill.sh
+	@./srcs/scripts/kill.sh
 
-massacre: kill clean
+massacre: rmvols
+	@./srcs/scripts/massacre.sh
+	docker volume rm srcs_mdbvol
+	docker volume rm srcs_wpvol
+	rm -rf /${USER}/data
+	@clear
+	@echo "Successfull massacre"
+
+re: massacre build

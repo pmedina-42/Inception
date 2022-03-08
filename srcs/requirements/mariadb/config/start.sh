@@ -1,14 +1,18 @@
-echo "Iniciando la base de datos..."
+#!/bin/sh
 
-cat << EOF > create.sql
-CREATE USER IF NOT EXISTS '$MYSQL_ROOT'@''%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
-CREATE DATABASE IF NOT EXISTS '$MYSQL_DATABASE'@'%';
-GRANT ALL ON '.'.* TO '$MYSQL_ROOT'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'
-GRANT ALL ON '$MYSQL_DATABASE'.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'
+openrc
+touch /run/openrc/softlevel
+# Initialize mariadb database
+/etc/init.d/mariadb setup
+rc-service mariadb start
+
+mysql -u root << EOF
+CREATE USER 'root'@'%' IDENTIFIED BY 'rootp';
+CREATE DATABASE bbdd;
+CREATE USER 'user'@'%' IDENTIFIED BY 'pw';
+GRANT ALL PRIVILEGES ON bbdd.* TO 'user'@'%';
+GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY 'rootp';
 FLUSH PRIVILEGES;
 EOF
 
-mysql < create.sql
-
-mysql -u root --password=$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < tools/wordpress.sql
+mysql -u root --password='rootp' 'bbdd' < config/wordpress.sql
