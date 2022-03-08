@@ -747,7 +747,7 @@ CREATE TABLE `wp_users` (
 --
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
-(1, 'pmedina-', '$P$BBEKqDq67PGX2ZiS4O790cLmkczo31/', 'pmedina-', 'patriciameedina@gmail.com', 'https://localhost/html/wordpress', '2020-11-23 16:14:35', '', 0, 'pmedina-');
+(1, 'pmedina-', '$63A9F0EA7BB98050796B649E85481845', 'pmedina-', 'patriciameedina@gmail.com', 'https://localhost/html/wordpress', '2020-11-23 16:14:35', '', 0, 'pmedina-');
 
 --
 -- Indexes for dumped tables

@@ -1,6 +1,7 @@
 version: '3'
 services:
   mariadb:
+    hostname: mariadb
     build:
         context: ./requirements/mariadb/
         args:
@@ -11,6 +12,9 @@ services:
     restart: unless-stopped
     volumes:
       - mdbvol:/var/lib/mysql
+    expose:
+      - "3306"
+
   wordpress:
     build:
         context: ./requirements/wordpress/
@@ -20,13 +24,12 @@ services:
             - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       - mariadb
+    expose:
+      - "9000"
     volumes:
       - wpvol:/var/www/html/wordpress
     restart: unless-stopped
-    environment:
-      WORDPRESS_DB_NAME: $DB_NAME
-      WORDPRESS_DB_USER: $DB_USER
-      WORDPRESS_DB_PASSWORD: $DB_PASSWORD
+
   nginx:
     build:
         context: ./requirements/nginx/
@@ -43,11 +46,11 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /root/data/wpvol
+      device: /$USER/data/wpvol
 
   mdbvol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /root/data/mdbvol
+      device: /$USER/data/mdbvol
