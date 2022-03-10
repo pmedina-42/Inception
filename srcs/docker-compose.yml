@@ -1,6 +1,8 @@
 version: '3'
 services:
   mariadb:
+    networks:
+      - inception
     hostname: mariadb
     build:
         context: ./requirements/mariadb/
@@ -16,6 +18,8 @@ services:
       - "3306"
 
   wordpress:
+    networks:
+      - inception
     build:
         context: ./requirements/wordpress/
         args:
@@ -31,6 +35,8 @@ services:
     restart: unless-stopped
 
   nginx:
+    networks:
+      - inception
     build:
         context: ./requirements/nginx/
     volumes:
@@ -40,6 +46,11 @@ services:
     restart: always
     ports:
       - 443:443
+
+networks:
+  inception:
+    driver: bridge
+
 volumes:
   wpvol:
     driver: local
